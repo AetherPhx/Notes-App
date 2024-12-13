@@ -1,50 +1,45 @@
-# React + TypeScript + Vite
+# Notes App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bienvenidos! 👋🏽 Esta es una aplicación web que permite a los usuarios crear y gestionar notas. 📝  
+Este proyecto se ha creado utilizando React + TypeScript + SCSS.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 👋🏽 Carga Inicial
 
-## Expanding the ESLint configuration
+- La app mostrará un mensaje de espera en lo que verifica si existe una lista de notas.
+- La app mostrará notas predefinidas a forma de guia si es la primera vez que se entra.
+- La app mostrará las notas guardadas en caso de que exista una lista de notas.
+- La app muestra un mensaje de lista vacía en caso que la lista existente de notas esté vacía.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 📝 Gestión de notas
 
-- Configure the top-level `parserOptions` property like this:
+- El usuario puede visualizar el preview (sticky note) de todas las notas.
+- El usuario puede visualizar el contenido completo de las notas al hacer clic en ellas.
+- El usuario puede crear nuevas notas brindándoles un título y contenido. También puede escoger el color para la nota.
+- El usuario puede revisar la fecha de creación y fecha de modificación de las notas.
+- El usuario puede editar el título, contenido y color de las notas.
+- El usuario puede eliminar las notas.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### 🔎 Orden, Filtro y Búsqueda **(Próximamente...)**
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- El usuario puede escoger el orden de la lista de notas (alfabético, por fecha de creación/modificación más reciente/antigua, personalizado).
+- El usuario puede reorganizar las notas mediante drag and drop (Arrastrar y Soltar).
+- El usuario puede filtrar las notas por fecha de creación/modificación y por color.
+- El usuario puede buscar notas por título.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### 📦 Almacenamiento
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+- La app usará el LocalStorage para almacenar y recuperar la lista de notas en formato JSON.
+- La app modificará el LocalStorage cada vez que se realice una modificación en la lista de notas.
+
+## Instalación
+
+1. Clonar el repositorio.
+2. Entrar en la carpeta del proyecto.
+3. Instalar las dependencias.
+4. Ya está! 🎉 Ahora puedes ejecutar el proyecto en modo desarrollo usando el siguiente comando:
+
+```bash
+yarn dev
 ```
