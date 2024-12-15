@@ -1,9 +1,6 @@
+import { NotesPage } from "./components/pages/NotesPage";
 function App() {
-	return (
-		<div>
-			<h1>Notes App</h1>
-		</div>
-	);
+	return <NotesPage />;
 }
 
 export default App;
