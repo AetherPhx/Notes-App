@@ -1,0 +1,19 @@
+@mixin minHeight {
+	min-height: 100vh;
+	min-height: 100dvh;
+}
+
+.NotesLayout {
+	@include minHeight;
+	max-width: 1000px;
+	margin-inline: auto;
+
+	position: relative;
+
+	&__content {
+		@include minHeight;
+		display: grid;
+		grid-template-rows: auto 1fr auto;
+		gap: var(--space-xxl);
+	}
+}

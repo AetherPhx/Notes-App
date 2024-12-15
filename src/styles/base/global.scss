@@ -1,0 +1,52 @@
+@use "../theme" as theme;
+
+:root {
+	//* Colors
+	// Main Colors
+	--color-bg-main: #{theme.$color-bg-main};
+	--color-bg-sec: #{theme.$color-bg-sec};
+	--color-text: #{theme.$color-text};
+	--color-text-sec: #{theme.$color-text-sec};
+	--color-shadow: #{theme.$color-shadow};
+	// Action Colors
+	--color-action-active: #{theme.$color-action-active};
+	--color-action-ok: #{theme.$color-action-ok};
+	--color-action-wrong: #{theme.$color-action-wrong};
+	// Notes Colors
+	--color-yellow: #{theme.$color-yellow};
+	--color-green: #{theme.$color-green};
+	--color-red: #{theme.$color-red};
+	--color-blue: #{theme.$color-blue};
+	--color-purple: #{theme.$color-purple};
+
+	//* Spacing
+	--space-xxs: #{theme.$space-xxs};
+	--space-xs: #{theme.$space-xs};
+	--space-sm: #{theme.$space-sm};
+	--space-md: #{theme.$space-md};
+	--space-lg: #{theme.$space-lg};
+	--space-xl: #{theme.$space-xl};
+	--space-xxl: #{theme.$space-xxl};
+
+	//* Typography
+	--fm: #{theme.$fm};
+	// Font Sizes
+	--fs-sm: #{theme.$fs-sm};
+	--fs-rg: #{theme.$fs-rg};
+	--fs-md: #{theme.$fs-md};
+	--fs-lg: #{theme.$fs-lg};
+	--fs-xl: #{theme.$fs-xl};
+	--fs-xxl: #{theme.$fs-xxl};
+	// Font Weights
+	--fw-regular: #{theme.$fw-regular};
+	--fw-bold: #{theme.$fw-bold};
+}
+
+body {
+	background-color: var(--color-bg-main);
+	color: var(--color-text);
+
+	font-family: var(--fm);
+	font-size: var(--fs-regular);
+	font-weight: var(--fw-regular);
+}
