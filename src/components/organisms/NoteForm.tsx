@@ -82,5 +82,28 @@ export const NoteForm = ({ noteToEdit, setNoteToEdit }: INoteForm) => {
 	});
 	const handleCancel = () => resetForm();
 
-	return "Este es el formulario";
+	return (
+		<section className="NoteForm">
+			<header className="NoteForm__header">
+				<h2 className="NoteForm__title">{formTitle}</h2>
+			</header>
+
+			<form className="NoteForm__form" onSubmit={onSubmit}>
+				<footer className="NoteForm__actions">
+					<Button
+						className={`${formSubmitClass} ${
+							noteToEdit ? (isChanged ? "" : "NoteForm--invalid") : null
+						}`}
+						type="submit"
+						disabled={noteToEdit ? !isChanged : false}
+					>
+						<Icon
+							icon={formSubmitIcon}
+							className={`${formSubmitClass}__icon`}
+						/>
+					</Button>
+				</footer>
+			</form>
+		</section>
+	);
 };
