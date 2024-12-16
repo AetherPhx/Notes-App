@@ -16,4 +16,29 @@
 		grid-template-rows: auto 1fr auto;
 		gap: var(--space-xxl);
 	}
+
+	&__header {
+		padding-top: var(--space-lg);
+		text-align: center;
+	}
+	&__title {
+		font-size: var(--fs-xxl);
+		font-weight: var(--fw-bold);
+	}
+
+	&__footer {
+		padding-block: var(--space-sm);
+		text-align: center;
+		font-size: var(--fs-sm);
+		font-weight: var(--fw-bold);
+	}
+	&__authorLink {
+		font-size: var(--fs-rg);
+		color: #886de4;
+		&:hover {
+			color: #644eae;
+			text-decoration: underline;
+			font-style: italic;
+		}
+	}
 }
