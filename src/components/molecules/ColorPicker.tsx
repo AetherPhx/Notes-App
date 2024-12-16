@@ -6,22 +6,23 @@ import {
 } from "react-hook-form";
 
 type ColorPickerProps<T extends FieldValues> = {
-	colorOptions: string[];
-
+	defaultColor: string;
 	register: UseFormRegister<T>;
 	name: Path<T>;
 	watch: (name: Path<T>) => T[Path<T>];
 };
 
 export const ColorPicker = <T extends FieldValues>({
-	colorOptions,
+	defaultColor,
 	register,
 	name,
 	watch,
 }: ColorPickerProps<T>) => {
+	const colorsOptions = [defaultColor, "green", "red", "blue", "purple"]; // Opciones de Colores para las notas
+
 	return (
 		<section className="ColorPicker">
-			{colorOptions.map((color, index) => (
+			{colorsOptions.map((color, index) => (
 				<label key={index}>
 					<Input type="radio" value={color} register={register} name={name} />
 					<span
