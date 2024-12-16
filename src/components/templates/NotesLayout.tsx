@@ -1,4 +1,10 @@
+import { Note } from "@models/Note";
+// import { NoteForm } from "@components/organisms";
+import { useState } from "react";
+
 export const NotesLayout = () => {
+	const [noteToEdit, setNoteToEdit] = useState<Note | null>(null);
+
 	return (
 		<div className="NotesLayout">
 			{/* Nota seleccionada */}
@@ -9,7 +15,7 @@ export const NotesLayout = () => {
 				</header>
 
 				<main className="NotesLayout__main">
-					{/* Formulario de Notas */}
+					{/* <NoteForm noteToEdit={noteToEdit} setNoteToEdit={setNoteToEdit} /> */}
 					{/* Lista de Notas */}
 				</main>
 
