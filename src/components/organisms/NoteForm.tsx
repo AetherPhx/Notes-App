@@ -75,9 +75,10 @@ export const NoteForm = ({ noteToEdit, setNoteToEdit }: INoteForm) => {
 		reset();
 	};
 	const onSubmit = handleSubmit((data) => {
-		const { title, content, color } = data;
-		if (noteToEdit) updateNote(noteToEdit.id, title, content, color);
-		else addNote(title, content, color);
+		console.log("La data enviada es:", data);
+		// const { title, content, color } = data;
+		// if (noteToEdit) updateNote(noteToEdit.id, title, content, color);
+		// else addNote(title, content, color);
 		resetForm();
 	});
 	const handleCancel = () => resetForm();
@@ -89,19 +90,81 @@ export const NoteForm = ({ noteToEdit, setNoteToEdit }: INoteForm) => {
 			</header>
 
 			<form className="NoteForm__form" onSubmit={onSubmit}>
+				<div className="NoteForm__fields">
+					<Input
+						className="NoteForm__Note-title"
+						type="text"
+						placeholder={noteToEdit ? noteToEdit.title : "Note Title"}
+						register={register}
+						name="title"
+						validationRules={{
+							required: {
+								value: true,
+								message: "Debes escribir un título",
+							},
+							minLength: {
+								value: 3,
+								message: "El título debe tener al menos 3 caracteres",
+							},
+							maxLength: {
+								value: 120,
+								message: "El título debe tener menos de 120 caracteres",
+							},
+						}}
+						error={errors.title}
+					/>
+
+					<TextArea
+						className="NoteForm__Note-content"
+						placeholder={
+							noteToEdit ? noteToEdit.content.join("\n") : "Note Content"
+						}
+						register={register}
+						name="content"
+						validationRules={{
+							required: {
+								value: true,
+								message: "Debes escribir contenido",
+							},
+						}}
+						error={errors.content}
+					/>
+				</div>
+
 				<footer className="NoteForm__actions">
-					<Button
-						className={`${formSubmitClass} ${
-							noteToEdit ? (isChanged ? "" : "NoteForm--invalid") : null
-						}`}
-						type="submit"
-						disabled={noteToEdit ? !isChanged : false}
-					>
-						<Icon
-							icon={formSubmitIcon}
-							className={`${formSubmitClass}__icon`}
-						/>
-					</Button>
+					<ColorPicker
+						defaultColor={initialFormValues.color}
+						register={register}
+						name="color"
+						watch={watch}
+					/>
+
+					<section className="NoteForm__actions">
+						{noteToEdit && (
+							<Button
+								className="NoteForm__cancel"
+								type="button"
+								action={handleCancel}
+							>
+								<Icon icon="close" className="NoteForm__cancel__icon"></Icon>
+								Cancelar
+							</Button>
+						)}
+
+						<Button
+							className={`${formSubmitClass} ${
+								noteToEdit ? (isChanged ? "" : "NoteForm--invalid") : ""
+							}`}
+							type="submit"
+							disabled={noteToEdit ? !isChanged : false}
+						>
+							<Icon
+								icon={formSubmitIcon}
+								className={`${formSubmitClass}__icon`}
+							/>
+							{formSubmitText}
+						</Button>
+					</section>
 				</footer>
 			</form>
 		</section>
