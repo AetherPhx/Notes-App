@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-// TODO: Importar el modelo de Notas
+import { Note } from "@models/Note";
 // TODO: Importar las fns de storage
 
 interface INotesContext {
@@ -9,13 +9,12 @@ interface INotesContext {
 	errorMessage: string | null; // Mensaje de error
 
 	// * Lista de Notas
-	noteList: any[]; // TODO: Definir el modelo de Notas
+	noteList: Note[]; // Lista de notas
 	isEmpty: boolean; // Estado de lista vacía
 
 	// * Funciones CRUD
 	addNote: (title: string, content: string, color: string) => void; // Método para agregar una nota
-	getNote: (id: string) => void; // Método para obtener una nota
-	// TODO: Agregar que este método devuelva Note o null
+	getNote: (id: string) => Note | void; // Método para obtener una nota
 	updateNote: (
 		id: string,
 		title: string,
@@ -25,7 +24,7 @@ interface INotesContext {
 	deleteNote: (id: string) => void; // Método para eliminar una nota
 }
 
-const NotesContext = createContext<INotesContext>(null);
+const NotesContext = createContext<INotesContext | null>(null);
 
 export const useNotesContext = () => {
 	const context = useContext(NotesContext);
@@ -39,7 +38,7 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [hasError, setHasError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
-	const [noteList, setNoteList] = useState<any[]>([]);
+	const [noteList, setNoteList] = useState<Note[]>([]);
 	const [isEmpty, setIsEmpty] = useState(false);
 
 	// Cargar notas al inicio de la app desde el storage
@@ -50,7 +49,7 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
 			setErrorMessage(null);
 
 			// TODO: Agregar carga de notas desde el storage
-			const localNoteList = [];
+			const localNoteList: Note[] = [];
 			if (localNoteList) {
 				if (localNoteList.length > 0) setNoteList(localNoteList);
 				else setIsEmpty(true);
