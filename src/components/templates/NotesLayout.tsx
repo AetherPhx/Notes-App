@@ -1,5 +1,5 @@
 import { Note } from "@models/Note";
-import { NoteForm } from "@components/organisms";
+import { NoteForm, NoteList } from "@components/organisms";
 import { useState } from "react";
 
 export const NotesLayout = () => {
@@ -19,7 +19,7 @@ export const NotesLayout = () => {
 
 				<main className="NotesLayout__main">
 					<NoteForm noteToEdit={noteToEdit} setNoteToEdit={setNoteToEdit} />
-					{/* Lista de Notas */}
+					<NoteList />
 				</main>
 
 				<footer className="NotesLayout__footer">

@@ -1,0 +1,22 @@
+.NoteList {
+	padding-block: var(--space-lg);
+	display: grid;
+	grid-template-columns: repeat(auto-fit, 320px);
+	grid-auto-rows: 240px;
+	gap: var(--space-lg);
+
+	&--loading {
+		color: var(--color-text);
+		display: block;
+		width: 100%;
+		padding: var(--space-md);
+
+		font-size: var(--fs-lg);
+		font-weight: var(--fw-bold);
+		text-align: center;
+	}
+	&--empty {
+		@extend .NoteList--loading;
+		color: var(--color-action-wrong);
+	}
+}
