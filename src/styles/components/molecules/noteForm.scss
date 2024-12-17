@@ -31,12 +31,6 @@
 	text-transform: uppercase;
 	cursor: pointer;
 
-	&__icon {
-		display: flex;
-		align-items: center;
-		font-size: 20px;
-	}
-
 	&:hover {
 		border-color: var(--color-shadow);
 		box-shadow: 0 0 2px 2.5px var(--color-text-sec);
@@ -98,6 +92,12 @@
 	&__edit {
 		@include actionBtn;
 		background-color: var(--color-action-active);
+
+		&__icon {
+			display: flex;
+			align-items: center;
+			font-size: 20px;
+		}
 	}
 	&__cancel {
 		@include actionBtn;
