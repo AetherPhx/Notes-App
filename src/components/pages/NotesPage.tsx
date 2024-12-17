@@ -1,6 +1,10 @@
-// TODO: Importar e Implementar provider
+import { NotesProvider } from "@context/NotesContext";
 import { NotesLayout } from "@templates/NotesLayout";
 
 export const NotesPage = () => {
-	return <NotesLayout />;
+	return (
+		<NotesProvider>
+			<NotesLayout />
+		</NotesProvider>
+	);
 };
