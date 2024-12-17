@@ -1,0 +1,72 @@
+.ColorPicker {
+	display: flex;
+	gap: 0.5rem;
+
+	input {
+		display: none;
+	}
+
+	// Opciones de Color
+	&__option {
+		display: inline-block;
+		width: 1.5rem;
+		height: 1.5rem;
+		border: 1px solid var(--color-text);
+		border-radius: 50%;
+		cursor: pointer;
+		animation: all 0.5s ease-in-out;
+
+		&:hover,
+		&:focus {
+			box-shadow: 0 0 0 2px var(--color-action-active);
+		}
+	}
+
+	// Específicos por Color
+	&__yellow {
+		@extend .ColorPicker__option;
+		background-color: var(--color-yellow);
+		&:hover,
+		&:focus {
+			border-color: var(--color-yellow);
+		}
+	}
+	&__green {
+		@extend .ColorPicker__option;
+		background-color: var(--color-green);
+		&:hover,
+		&:focus {
+			border-color: var(--color-green);
+		}
+	}
+	&__red {
+		@extend .ColorPicker__option;
+		background-color: var(--color-red);
+		&:hover,
+		&:focus {
+			border-color: var(--color-red);
+		}
+	}
+	&__blue {
+		@extend .ColorPicker__option;
+		background-color: var(--color-blue);
+		&:hover,
+		&:focus {
+			border-color: var(--color-blue);
+		}
+	}
+	&__purple {
+		@extend .ColorPicker__option;
+		background-color: var(--color-purple);
+		&:hover,
+		&:focus {
+			border-color: var(--color-purple);
+		}
+	}
+
+	// Color Seleccionado
+	&__selected {
+		border-color: var(--color-action-ok);
+		box-shadow: 0 0 0 2px var(--color-action-ok);
+	}
+}
