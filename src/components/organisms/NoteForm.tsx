@@ -76,9 +76,9 @@ export const NoteForm = ({ noteToEdit, setNoteToEdit }: INoteForm) => {
 	};
 	const onSubmit = handleSubmit((data) => {
 		console.log("La data enviada es:", data);
-		// const { title, content, color } = data;
-		// if (noteToEdit) updateNote(noteToEdit.id, title, content, color);
-		// else addNote(title, content, color);
+		const { title, content, color } = data;
+		if (noteToEdit) updateNote(noteToEdit.id, title, content, color);
+		else addNote(title, content, color);
 		resetForm();
 	});
 	const handleCancel = () => resetForm();

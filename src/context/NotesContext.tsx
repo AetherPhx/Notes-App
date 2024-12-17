@@ -64,10 +64,10 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
 	}, []);
 
 	// * Funciones CRUD
-	const addNote = () => {};
-	const getNote = () => {};
-	const updateNote = () => {};
-	const deleteNote = () => {};
+	const addNote = () => console.log("addNote");
+	const getNote = () => console.log("getNote");
+	const updateNote = () => console.log("updateNote");
+	const deleteNote = () => console.log("deleteNote");
 
 	return (
 		<NotesContext.Provider
