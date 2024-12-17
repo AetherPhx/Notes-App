@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, useEffect } from "react";
 import { Note } from "@models/Note";
+import { loadNotes, saveNotes } from "@storage/notesStorage";
+import { createContext, useContext, useState, useEffect } from "react";
 // TODO: Importar las fns de storage
 
 interface INotesContext {
@@ -77,13 +78,11 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
 			setHasError(false);
 			setErrorMessage(null);
 
-			// TODO: Agregar carga de notas desde el storage
-			// const localNoteList: Note[] = [];
-			// if (localNoteList) {
-			// 	if (localNoteList.length > 0) setNoteList(localNoteList);
-			// 	else setIsEmpty(true);
-			// }
-			setNoteList(defaultNoteList);
+			const localNoteList: Note[] | null = loadNotes();
+			if (localNoteList) {
+				if (localNoteList.length > 0) setNoteList(localNoteList);
+				else setIsEmpty(true);
+			} else setNoteList(defaultNoteList);
 		} catch (error) {
 			setHasError(true);
 			if (error instanceof Error) setErrorMessage(error.message);
@@ -92,17 +91,39 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
 		}
 	}, []);
 
+	useEffect(() => {
+		if (noteList.length > 0) setIsEmpty(false);
+		else setIsEmpty(true);
+	}, [noteList]); // Si la lista de notas cambia, comprueba si está vacía
+
 	// * Funciones CRUD
-	const addNote = (title: string, content: string, color: string) =>
-		console.log("addNote:", { title, content, color });
-	const getNote = (id: string) => console.log("getNote:", id);
+	const addNote = (title: string, content: string, color: string) => {
+		const noteToAdd = new Note(title, content.split("\n"), color);
+		const newNoteList = [...noteList, noteToAdd];
+		setNoteList(newNoteList);
+		saveNotes(newNoteList);
+	};
+	const getNote = (id: string) =>
+		noteList.find((note) => note.id === id) || null;
 	const updateNote = (
 		id: string,
 		title: string,
 		content: string,
 		color: string
-	) => console.log("Note updated:", { id, title, content, color });
-	const deleteNote = (id: string) => console.log("deleteNote:", id);
+	) => {
+		const newNoteList = noteList.map((note) =>
+			note.id === id
+				? new Note(title, content.split("\n"), color, note.createdAt)
+				: note
+		);
+		setNoteList(newNoteList);
+		saveNotes(newNoteList);
+	};
+	const deleteNote = (id: string) => {
+		const newNoteList = noteList.filter((note) => note.id !== id);
+		setNoteList(newNoteList);
+		saveNotes(newNoteList);
+	};
 
 	return (
 		<NotesContext.Provider
