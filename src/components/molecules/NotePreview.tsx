@@ -1,29 +1,51 @@
 import { Note } from "@models/Note";
-import { Icon } from "@components/atoms";
 import { useNotesContext } from "@context/NotesContext";
+import { Icon } from "@components/atoms";
+import { useEffect, useState } from "react";
 
 interface INotePreview {
 	note: Note;
+	selectNote: React.Dispatch<React.SetStateAction<Note | null>>;
+	setNoteToEdit: React.Dispatch<React.SetStateAction<Note | null>>;
+	isEditing: boolean;
 }
 
-export const NotePreview = ({ note }: INotePreview) => {
+export const NotePreview = ({
+	note,
+	selectNote,
+	setNoteToEdit,
+	isEditing,
+}: INotePreview) => {
 	const { id, title, content, colorNote, createdAt, updatedAt } = note;
+	const [isActive, setIsActive] = useState(false);
 
 	// * Texto Dinámico del Preview
 	const dateShowed = updatedAt ? updatedAt : createdAt;
 	const dateText = dateShowed === updatedAt ? "Editado el:" : "Creado el:";
-	const notePreviewClass = `NotePreview--${colorNote}`;
+	const notePreviewClass = `NotePreview--${colorNote} ${
+		isActive ? "NotePreview--active" : ""
+	}`;
 
-	// * Funciones CRUD
+	useEffect(() => {
+		if (!isEditing) setIsActive(false);
+	}, [isEditing]); // Deshabilita el efecto de activo
+
 	const { getNote, deleteNote } = useNotesContext();
 
+	const selectNoteToEdit = (id: string) => {
+		setIsActive(true);
+		setNoteToEdit(getNote(id));
+	};
+
 	const handleClick = (target?: string) => {
-		if (target === "edit") getNote(id);
+		if (isEditing) return;
+		else if (target === "edit") selectNoteToEdit(id);
 		else if (target === "delete") deleteNote(id);
+		else selectNote(note);
 	};
 
 	return (
-		<article className={notePreviewClass}>
+		<article className={notePreviewClass} onClick={() => handleClick()}>
 			<header className="NotePreview__header">
 				<h3 className="NotePreview__title">{title}</h3>
 				<section className="NotePreview__actions">

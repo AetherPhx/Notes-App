@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, useEffect } from "react";
 import { Note } from "@models/Note";
+import { loadNotes, saveNotes } from "@storage/notesStorage";
+import { createContext, useContext, useState, useEffect } from "react";
 // TODO: Importar las fns de storage
 
 interface INotesContext {
@@ -14,7 +15,7 @@ interface INotesContext {
 
 	// * Funciones CRUD
 	addNote: (title: string, content: string, color: string) => void; // Método para agregar una nota
-	getNote: (id: string) => Note | void; // Método para obtener una nota
+	getNote: (id: string) => Note | null; // Método para obtener una nota
 	updateNote: (
 		id: string,
 		title: string,
@@ -40,35 +41,6 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const [noteList, setNoteList] = useState<Note[]>([]);
 	const [isEmpty, setIsEmpty] = useState(false);
-	const defaultNoteList: Note[] = [
-		new Note(
-			"Bienvenido! 👋🏽",
-			[
-				"📝 Esta app te permite crear y gestionar notas de manera rápida y sencilla.",
-				"Agrega notas rápidas, usalo para expresarte, escribe recordatorios, o simplemente toma notas. ¡Puedes hacer todo eso y más con esta app! 😊",
-			],
-			"yellow"
-		),
-		new Note(
-			"Llamar a mamá 📱",
-			[
-				"Mamá regresa de su viaje el viernes, no podré visitarla por lo que quiero llamarla para charlar un poco 😊",
-			],
-			"blue"
-		),
-		new Note(
-			"❓ Tutorial",
-			[
-				"Esta nota tiene mucho contenido por lo que en la sticky note solo se verá la primera parte. Sin embargo, una vez que abras la nota podrás acceder al contenido completo de la nota.",
-				"¡Dale click para poder visualizarlo por completo!",
-				"🎓 ¡Guia / Tutorial de la App! 🎓",
-				"Usa el formulario de la parte superior para agregar notas. Solo debes escribir el título y el contenido de la nota. Si lo deseas puedes cambiar el color de la nota.",
-				"Puedes eliminar fácilmente una nota solo dandole click al botón de eliminar desde las sticky notes.",
-				"Edita las notas dando click al botón de editar desde las sticky notes. Esto cambiará el formulario al modo de edición donde puedes realizar los cambios que gustes.",
-			],
-			"red"
-		),
-	];
 
 	// Cargar notas al inicio de la app desde el storage
 	useEffect(() => {
@@ -77,13 +49,40 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
 			setHasError(false);
 			setErrorMessage(null);
 
-			// TODO: Agregar carga de notas desde el storage
-			// const localNoteList: Note[] = [];
-			// if (localNoteList) {
-			// 	if (localNoteList.length > 0) setNoteList(localNoteList);
-			// 	else setIsEmpty(true);
-			// }
-			setNoteList(defaultNoteList);
+			const localNoteList: Note[] | null = loadNotes();
+			if (localNoteList) {
+				if (localNoteList.length > 0) setNoteList(localNoteList);
+				else setIsEmpty(true);
+			} else
+				setNoteList([
+					new Note(
+						"Bienvenido! 👋🏽",
+						[
+							"📝 Esta app te permite crear y gestionar notas de manera rápida y sencilla.",
+							"Agrega notas rápidas, usalo para expresarte, escribe recordatorios, o simplemente toma notas. ¡Puedes hacer todo eso y más con esta app! 😊",
+						],
+						"yellow"
+					),
+					new Note(
+						"Llamar a mamá 📱",
+						[
+							"Mamá regresa de su viaje el viernes, no podré visitarla por lo que quiero llamarla para charlar un poco 😊",
+						],
+						"blue"
+					),
+					new Note(
+						"❓ Tutorial",
+						[
+							"Esta nota tiene mucho contenido por lo que en la sticky note solo se verá la primera parte. Sin embargo, una vez que abras la nota podrás acceder al contenido completo de la nota.",
+							"¡Dale click para poder visualizarlo por completo!",
+							"🎓 ¡Guia / Tutorial de la App! 🎓",
+							"Usa el formulario de la parte superior para agregar notas. Solo debes escribir el título y el contenido de la nota. Si lo deseas puedes cambiar el color de la nota.",
+							"Puedes eliminar fácilmente una nota solo dandole click al botón de eliminar desde las sticky notes.",
+							"Edita las notas dando click al botón de editar desde las sticky notes. Esto cambiará el formulario al modo de edición donde puedes realizar los cambios que gustes.",
+						],
+						"red"
+					),
+				]);
 		} catch (error) {
 			setHasError(true);
 			if (error instanceof Error) setErrorMessage(error.message);
@@ -92,17 +91,39 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
 		}
 	}, []);
 
+	useEffect(() => {
+		if (noteList.length > 0) setIsEmpty(false);
+		else setIsEmpty(true);
+	}, [noteList]); // Si la lista de notas cambia, comprueba si está vacía
+
 	// * Funciones CRUD
-	const addNote = (title: string, content: string, color: string) =>
-		console.log("addNote:", { title, content, color });
-	const getNote = (id: string) => console.log("getNote:", id);
+	const addNote = (title: string, content: string, color: string) => {
+		const noteToAdd = new Note(title, content.split("\n"), color);
+		const newNoteList = [...noteList, noteToAdd];
+		setNoteList(newNoteList);
+		saveNotes(newNoteList);
+	};
+	const getNote = (id: string) =>
+		noteList.find((note) => note.id === id) || null;
 	const updateNote = (
 		id: string,
 		title: string,
 		content: string,
 		color: string
-	) => console.log("Note updated:", { id, title, content, color });
-	const deleteNote = (id: string) => console.log("deleteNote:", id);
+	) => {
+		const newNoteList = noteList.map((note) =>
+			note.id === id
+				? new Note(title, content.split("\n"), color, note.createdAt)
+				: note
+		);
+		setNoteList(newNoteList);
+		saveNotes(newNoteList);
+	};
+	const deleteNote = (id: string) => {
+		const newNoteList = noteList.filter((note) => note.id !== id);
+		setNoteList(newNoteList);
+		saveNotes(newNoteList);
+	};
 
 	return (
 		<NotesContext.Provider

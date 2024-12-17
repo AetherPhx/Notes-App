@@ -1,16 +1,23 @@
 import { Note } from "@models/Note";
 import { NoteForm, NoteList } from "@components/organisms";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { NoteFull } from "@components/molecules/NoteFull";
 
 export const NotesLayout = () => {
-	const [noteToEdit, setNoteToEdit] = useState<Note | null>(
-		null
-		// new Note("This is the Title", ["Primer Párrafo"], "yellow")
-	);
+	const [noteSelected, setNoteSelected] = useState<Note | null>(null);
+	const [noteToEdit, setNoteToEdit] = useState<Note | null>(null);
+	const [isEditing, setIsEditing] = useState(false);
+
+	useEffect(() => {
+		if (noteToEdit) setIsEditing(true);
+		else setIsEditing(false);
+	}, [noteToEdit]);
 
 	return (
 		<div className="NotesLayout">
-			{/* Nota seleccionada */}
+			{noteSelected && (
+				<NoteFull note={noteSelected} setNoteSelected={setNoteSelected} />
+			)}
 
 			<div className="NotesLayout__content">
 				<header className="NotesLayout__header">
@@ -19,7 +26,11 @@ export const NotesLayout = () => {
 
 				<main className="NotesLayout__main">
 					<NoteForm noteToEdit={noteToEdit} setNoteToEdit={setNoteToEdit} />
-					<NoteList />
+					<NoteList
+						selectNote={setNoteSelected}
+						setNoteToEdit={setNoteToEdit}
+						isEditing={isEditing}
+					/>
 				</main>
 
 				<footer className="NotesLayout__footer">
