@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 
 interface INotePreview {
 	note: Note;
+	selectNote: React.Dispatch<React.SetStateAction<Note | null>>;
 	setNoteToEdit: React.Dispatch<React.SetStateAction<Note | null>>;
 	isEditing: boolean;
 }
 
 export const NotePreview = ({
 	note,
+	selectNote,
 	setNoteToEdit,
 	isEditing,
 }: INotePreview) => {
@@ -39,10 +41,11 @@ export const NotePreview = ({
 		if (isEditing) return;
 		else if (target === "edit") selectNoteToEdit(id);
 		else if (target === "delete") deleteNote(id);
+		else selectNote(note);
 	};
 
 	return (
-		<article className={notePreviewClass}>
+		<article className={notePreviewClass} onClick={() => handleClick()}>
 			<header className="NotePreview__header">
 				<h3 className="NotePreview__title">{title}</h3>
 				<section className="NotePreview__actions">

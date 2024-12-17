@@ -3,11 +3,16 @@ import { useNotesContext } from "@context/NotesContext";
 import { NotePreview } from "@molecules/NotePreview";
 
 interface INoteList {
+	selectNote: React.Dispatch<React.SetStateAction<Note | null>>;
 	setNoteToEdit: React.Dispatch<React.SetStateAction<Note | null>>;
 	isEditing: boolean;
 }
 
-export const NoteList = ({ setNoteToEdit, isEditing }: INoteList) => {
+export const NoteList = ({
+	selectNote,
+	setNoteToEdit,
+	isEditing,
+}: INoteList) => {
 	const { isLoading, hasError, errorMessage, noteList, isEmpty } =
 		useNotesContext();
 
@@ -24,6 +29,7 @@ export const NoteList = ({ setNoteToEdit, isEditing }: INoteList) => {
 				<NotePreview
 					key={note.id}
 					note={note}
+					selectNote={selectNote}
 					setNoteToEdit={setNoteToEdit}
 					isEditing={isEditing}
 				/>
