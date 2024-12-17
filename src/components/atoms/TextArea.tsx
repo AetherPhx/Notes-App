@@ -24,27 +24,14 @@ export const TextArea = <T extends FieldValues>({
 	validationRules,
 	error,
 }: TextAreaProps<T>) => {
-	const maxLength = validationRules?.maxLength
-		? typeof validationRules.maxLength === "object"
-			? validationRules.maxLength.value
-			: validationRules.maxLength
-		: null;
-
 	return (
 		<>
-			<div className="TextAreaWrapper">
-				<textarea
-					className={className}
-					placeholder={placeholder}
-					{...register(name, validationRules)}
-				/>
-				{maxLength && (
-					<span className="TextArea__maxLength">
-						Límite de Caracteres: {maxLength}
-					</span>
-				)}
-			</div>
-			{error && <span>{error.message}</span>}
+			<textarea
+				className={className}
+				placeholder={placeholder}
+				{...register(name, validationRules)}
+			/>
+			<span className={`${className}-error`}>{error ? error.message : ""}</span>
 		</>
 	);
 };

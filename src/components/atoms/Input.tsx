@@ -37,7 +37,7 @@ export const Input = <T extends FieldValues>({
 				{...register(name, validationRules)}
 				aria-invalid={error ? "true" : "false"}
 			/>
-			{error && <span>{error.message}</span>}
+			<span className={`${className}-error`}>{error ? error.message : ""}</span>
 		</>
 	);
 };

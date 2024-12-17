@@ -48,7 +48,7 @@ export const NoteForm = ({ noteToEdit, setNoteToEdit }: INoteForm) => {
 	const formTitle = noteToEdit ? "¡Edita esta Nota!" : "¡Agrega una Nota!";
 	const formSubmitIcon = noteToEdit ? "edit" : "add";
 	const formSubmitClass = noteToEdit ? "NoteForm__edit" : "NoteForm__add";
-	const formSubmitText = noteToEdit ? "Confirmar Edición" : "Agregar Nota";
+	const formSubmitText = noteToEdit ? "Confirmar" : "Agregar";
 
 	// * Funciones CRUD (Agregar y Actualizar)
 	const { addNote, updateNote } = useNotesContext();
@@ -91,47 +91,59 @@ export const NoteForm = ({ noteToEdit, setNoteToEdit }: INoteForm) => {
 
 			<form className="NoteForm__form" onSubmit={onSubmit}>
 				<div className="NoteForm__fields">
-					<Input
-						className="NoteForm__Note-title"
-						type="text"
-						placeholder={noteToEdit ? noteToEdit.title : "Note Title"}
-						register={register}
-						name="title"
-						validationRules={{
-							required: {
-								value: true,
-								message: "Debes escribir un título",
-							},
-							minLength: {
-								value: 3,
-								message: "El título debe tener al menos 3 caracteres",
-							},
-							maxLength: {
-								value: 120,
-								message: "El título debe tener menos de 120 caracteres",
-							},
-						}}
-						error={errors.title}
-					/>
+					<div className="NoteForm__field">
+						<Input
+							className="NoteForm__NoteTitle"
+							type="text"
+							placeholder={noteToEdit ? noteToEdit.title : "Note Title"}
+							register={register}
+							name="title"
+							validationRules={{
+								required: {
+									value: true,
+									message: "Debes escribir un título",
+								},
+								minLength: {
+									value: 3,
+									message: "El título debe tener al menos 3 caracteres",
+								},
+								maxLength: {
+									value: 120,
+									message: "El título debe tener menos de 120 caracteres",
+								},
+							}}
+							error={errors.title}
+						/>
+					</div>
 
-					<TextArea
-						className="NoteForm__Note-content"
-						placeholder={
-							noteToEdit ? noteToEdit.content.join("\n") : "Note Content"
-						}
-						register={register}
-						name="content"
-						validationRules={{
-							required: {
-								value: true,
-								message: "Debes escribir contenido",
-							},
-						}}
-						error={errors.content}
-					/>
+					<div className="NoteForm__field">
+						<TextArea
+							className="NoteForm__NoteContent"
+							placeholder={
+								noteToEdit ? noteToEdit.content.join("\n") : "Note Content"
+							}
+							register={register}
+							name="content"
+							validationRules={{
+								required: {
+									value: true,
+									message: "Debes escribir contenido",
+								},
+								minLength: {
+									value: 10,
+									message: "El contenido debe tener al menos 10 caracteres",
+								},
+								maxLength: {
+									value: 1000,
+									message: "Debes escribir menos de 1000 caracteres",
+								},
+							}}
+							error={errors.content}
+						/>
+					</div>
 				</div>
 
-				<footer className="NoteForm__actions">
+				<footer className="NoteForm__footer">
 					<ColorPicker
 						defaultColor={initialFormValues.color}
 						register={register}

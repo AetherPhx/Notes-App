@@ -1,0 +1,109 @@
+@mixin field {
+	background-color: transparent;
+	width: 100%;
+	padding: var(--space-xs);
+	border: 1px solid var(--color-shadow);
+	border-radius: 4px;
+	outline: none;
+
+	font-family: inherit;
+	font-size: var(--fs-rg);
+	font-weight: var(--fw-regular);
+
+	&:focus {
+		border-color: var(--color-action-active);
+		box-shadow: 0 0 0 2px var(--color-action-active);
+	}
+}
+@mixin actionBtn {
+	color: var(--color-text-sec);
+	padding: var(--space-xs) var(--space-sm);
+	border: 2px solid var(--color-text-sec);
+	border-radius: 4px;
+
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+
+	font-family: var(--fm);
+	font-size: var(--fs-regular);
+	font-weight: var(--fw-bold);
+	text-transform: uppercase;
+	cursor: pointer;
+
+	&__icon {
+		display: flex;
+		align-items: center;
+		font-size: 20px;
+	}
+
+	&:hover {
+		border-color: var(--color-shadow);
+		box-shadow: 0 0 2px 2.5px var(--color-text-sec);
+	}
+}
+
+.NoteForm {
+	background-color: var(--color-bg-sec);
+	padding: var(--space-md) var(--space-lg);
+	border-radius: var(--space-sm);
+	box-shadow: 0 0 10px var(--color-shadow-sec);
+
+	&__header {
+		text-align: center;
+		margin-bottom: var(--space-md);
+	}
+
+	//* Formulario
+	&__form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-sm);
+	}
+	&__fields {
+		display: grid;
+		gap: var(--space-md);
+	}
+	&__field {
+		display: grid;
+		gap: var(--space-xxs);
+	}
+	&__Note {
+		&Title,
+		&Content {
+			@include field;
+			&-error {
+				color: var(--color-action-wrong);
+				height: var(--fs-rg);
+			}
+		}
+
+		&Content {
+			min-height: 4.5lh;
+			max-height: 8lh;
+			resize: vertical;
+		}
+	}
+	&__footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	&__actions {
+		color: var(--color-text-sec);
+		display: flex;
+		gap: var(--space-sm);
+	}
+	&__add,
+	&__edit {
+		@include actionBtn;
+		background-color: var(--color-action-active);
+	}
+	&__cancel {
+		@include actionBtn;
+		background-color: var(--color-action-wrong);
+	}
+	&--invalid {
+		background-color: var(--color-shadow);
+	}
+}
