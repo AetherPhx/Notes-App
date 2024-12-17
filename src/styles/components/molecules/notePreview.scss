@@ -21,16 +21,12 @@
 		align-items: center;
 		gap: var(--space-xs);
 		font-size: var(--fs-large);
-		&__edit,
-		&__delete {
-			cursor: pointer;
-		}
-		&__edit:hover {
-			color: var(--color-action-active);
-		}
-		&__delete:hover {
-			color: var(--color-action-wrong);
-		}
+	}
+	&__edit:hover {
+		color: var(--color-action-active);
+	}
+	&__delete:hover {
+		color: var(--color-action-wrong);
 	}
 
 	&__main {
@@ -61,7 +57,7 @@
 		cursor: pointer;
 	}
 
-	&--editing {
+	&--active {
 		border: 1px solid var(--color-action-active);
 		box-shadow: 0 0 10px 1px var(--color-action-active);
 	}
