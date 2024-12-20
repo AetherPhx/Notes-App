@@ -5,7 +5,7 @@
 
 .NotesLayout {
 	@include minHeight;
-	max-width: 1000px;
+	width: min(100% - 40px, 1000px);
 	margin-inline: auto;
 
 	position: relative;

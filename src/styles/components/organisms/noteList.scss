@@ -4,6 +4,7 @@
 	grid-template-columns: repeat(auto-fit, 320px);
 	grid-auto-rows: 240px;
 	gap: var(--space-lg);
+	justify-content: center;
 
 	&--loading {
 		color: var(--color-text);
